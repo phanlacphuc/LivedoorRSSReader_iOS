@@ -1,0 +1,433 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0831B2E7BAB00A963A0 /* main.m */; };
+		ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0861B2E7BAB00A963A0 /* AppDelegate.m */; };
+		ACCEE08A1B2E7BAB00A963A0 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0891B2E7BAB00A963A0 /* MasterViewController.m */; };
+		ACCEE08D1B2E7BAB00A963A0 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE08C1B2E7BAB00A963A0 /* DetailViewController.m */; };
+		ACCEE0901B2E7BAB00A963A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACCEE08E1B2E7BAB00A963A0 /* Main.storyboard */; };
+		ACCEE0921B2E7BAB00A963A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCEE0911B2E7BAB00A963A0 /* Images.xcassets */; };
+		ACCEE0951B2E7BAC00A963A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACCEE0931B2E7BAC00A963A0 /* LaunchScreen.xib */; };
+		ACCEE0A11B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0A01B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ACCEE09B1B2E7BAC00A963A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACCEE0761B2E7BAB00A963A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACCEE07D1B2E7BAB00A963A0;
+			remoteInfo = LivedoorRSSReader;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		ACCEE07E1B2E7BAB00A963A0 /* LivedoorRSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LivedoorRSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCEE0821B2E7BAB00A963A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACCEE0831B2E7BAB00A963A0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		ACCEE0851B2E7BAB00A963A0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		ACCEE0861B2E7BAB00A963A0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		ACCEE0881B2E7BAB00A963A0 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		ACCEE0891B2E7BAB00A963A0 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		ACCEE08B1B2E7BAB00A963A0 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		ACCEE08C1B2E7BAB00A963A0 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		ACCEE08F1B2E7BAB00A963A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ACCEE0911B2E7BAB00A963A0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		ACCEE0941B2E7BAC00A963A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		ACCEE09A1B2E7BAC00A963A0 /* LivedoorRSSReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LivedoorRSSReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCEE09F1B2E7BAC00A963A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACCEE0A01B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LivedoorRSSReaderTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ACCEE07B1B2E7BAB00A963A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACCEE0971B2E7BAC00A963A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ACCEE0751B2E7BAB00A963A0 = {
+			isa = PBXGroup;
+			children = (
+				ACCEE0801B2E7BAB00A963A0 /* LivedoorRSSReader */,
+				ACCEE09D1B2E7BAC00A963A0 /* LivedoorRSSReaderTests */,
+				ACCEE07F1B2E7BAB00A963A0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ACCEE07F1B2E7BAB00A963A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACCEE07E1B2E7BAB00A963A0 /* LivedoorRSSReader.app */,
+				ACCEE09A1B2E7BAC00A963A0 /* LivedoorRSSReaderTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ACCEE0801B2E7BAB00A963A0 /* LivedoorRSSReader */ = {
+			isa = PBXGroup;
+			children = (
+				ACCEE0851B2E7BAB00A963A0 /* AppDelegate.h */,
+				ACCEE0861B2E7BAB00A963A0 /* AppDelegate.m */,
+				ACCEE0881B2E7BAB00A963A0 /* MasterViewController.h */,
+				ACCEE0891B2E7BAB00A963A0 /* MasterViewController.m */,
+				ACCEE08B1B2E7BAB00A963A0 /* DetailViewController.h */,
+				ACCEE08C1B2E7BAB00A963A0 /* DetailViewController.m */,
+				ACCEE08E1B2E7BAB00A963A0 /* Main.storyboard */,
+				ACCEE0911B2E7BAB00A963A0 /* Images.xcassets */,
+				ACCEE0931B2E7BAC00A963A0 /* LaunchScreen.xib */,
+				ACCEE0811B2E7BAB00A963A0 /* Supporting Files */,
+			);
+			path = LivedoorRSSReader;
+			sourceTree = "<group>";
+		};
+		ACCEE0811B2E7BAB00A963A0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACCEE0821B2E7BAB00A963A0 /* Info.plist */,
+				ACCEE0831B2E7BAB00A963A0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ACCEE09D1B2E7BAC00A963A0 /* LivedoorRSSReaderTests */ = {
+			isa = PBXGroup;
+			children = (
+				ACCEE0A01B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m */,
+				ACCEE09E1B2E7BAC00A963A0 /* Supporting Files */,
+			);
+			path = LivedoorRSSReaderTests;
+			sourceTree = "<group>";
+		};
+		ACCEE09E1B2E7BAC00A963A0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACCEE09F1B2E7BAC00A963A0 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ACCEE07D1B2E7BAB00A963A0 /* LivedoorRSSReader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACCEE0A41B2E7BAC00A963A0 /* Build configuration list for PBXNativeTarget "LivedoorRSSReader" */;
+			buildPhases = (
+				ACCEE07A1B2E7BAB00A963A0 /* Sources */,
+				ACCEE07B1B2E7BAB00A963A0 /* Frameworks */,
+				ACCEE07C1B2E7BAB00A963A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LivedoorRSSReader;
+			productName = LivedoorRSSReader;
+			productReference = ACCEE07E1B2E7BAB00A963A0 /* LivedoorRSSReader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ACCEE0991B2E7BAC00A963A0 /* LivedoorRSSReaderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACCEE0A71B2E7BAC00A963A0 /* Build configuration list for PBXNativeTarget "LivedoorRSSReaderTests" */;
+			buildPhases = (
+				ACCEE0961B2E7BAC00A963A0 /* Sources */,
+				ACCEE0971B2E7BAC00A963A0 /* Frameworks */,
+				ACCEE0981B2E7BAC00A963A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ACCEE09C1B2E7BAC00A963A0 /* PBXTargetDependency */,
+			);
+			name = LivedoorRSSReaderTests;
+			productName = LivedoorRSSReaderTests;
+			productReference = ACCEE09A1B2E7BAC00A963A0 /* LivedoorRSSReaderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ACCEE0761B2E7BAB00A963A0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Phan Lac Phuc";
+				TargetAttributes = {
+					ACCEE07D1B2E7BAB00A963A0 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					ACCEE0991B2E7BAC00A963A0 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = ACCEE07D1B2E7BAB00A963A0;
+					};
+				};
+			};
+			buildConfigurationList = ACCEE0791B2E7BAB00A963A0 /* Build configuration list for PBXProject "LivedoorRSSReader" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ACCEE0751B2E7BAB00A963A0;
+			productRefGroup = ACCEE07F1B2E7BAB00A963A0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ACCEE07D1B2E7BAB00A963A0 /* LivedoorRSSReader */,
+				ACCEE0991B2E7BAC00A963A0 /* LivedoorRSSReaderTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ACCEE07C1B2E7BAB00A963A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACCEE0901B2E7BAB00A963A0 /* Main.storyboard in Resources */,
+				ACCEE0951B2E7BAC00A963A0 /* LaunchScreen.xib in Resources */,
+				ACCEE0921B2E7BAB00A963A0 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACCEE0981B2E7BAC00A963A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ACCEE07A1B2E7BAB00A963A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */,
+				ACCEE08A1B2E7BAB00A963A0 /* MasterViewController.m in Sources */,
+				ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */,
+				ACCEE08D1B2E7BAB00A963A0 /* DetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACCEE0961B2E7BAC00A963A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACCEE0A11B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ACCEE09C1B2E7BAC00A963A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACCEE07D1B2E7BAB00A963A0 /* LivedoorRSSReader */;
+			targetProxy = ACCEE09B1B2E7BAC00A963A0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		ACCEE08E1B2E7BAB00A963A0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ACCEE08F1B2E7BAB00A963A0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		ACCEE0931B2E7BAC00A963A0 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ACCEE0941B2E7BAC00A963A0 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		ACCEE0A21B2E7BAC00A963A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		ACCEE0A31B2E7BAC00A963A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ACCEE0A51B2E7BAC00A963A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = LivedoorRSSReader/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ACCEE0A61B2E7BAC00A963A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = LivedoorRSSReader/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		ACCEE0A81B2E7BAC00A963A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LivedoorRSSReaderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LivedoorRSSReader.app/LivedoorRSSReader";
+			};
+			name = Debug;
+		};
+		ACCEE0A91B2E7BAC00A963A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LivedoorRSSReaderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LivedoorRSSReader.app/LivedoorRSSReader";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ACCEE0791B2E7BAB00A963A0 /* Build configuration list for PBXProject "LivedoorRSSReader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACCEE0A21B2E7BAC00A963A0 /* Debug */,
+				ACCEE0A31B2E7BAC00A963A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ACCEE0A41B2E7BAC00A963A0 /* Build configuration list for PBXNativeTarget "LivedoorRSSReader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACCEE0A51B2E7BAC00A963A0 /* Debug */,
+				ACCEE0A61B2E7BAC00A963A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		ACCEE0A71B2E7BAC00A963A0 /* Build configuration list for PBXNativeTarget "LivedoorRSSReaderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACCEE0A81B2E7BAC00A963A0 /* Debug */,
+				ACCEE0A91B2E7BAC00A963A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ACCEE0761B2E7BAB00A963A0 /* Project object */;
+}

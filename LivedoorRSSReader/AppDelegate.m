@@ -20,9 +20,8 @@
     // Override point for customization after application launch.
     
     // Setup CoreData with MagicalRecord
-    // Step 1. Setup Core Data Stack with Magical Record
-    // Step 2. Relax. Why not have a beer? Surely all this talk of beer is making you thirsty…
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"LivedoorRSSReaderModel"];
+    
     return YES;
 }
 

@@ -45,6 +45,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    
+    if (!self.article.is_read.boolValue){
+        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
+            // nothing to do after saved
+            Article *artical = [self.article MR_inContext:localContext];
+            artical.is_read = [NSNumber numberWithBool:YES];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -17,12 +17,21 @@
     enum nodes {title = 1, articleLink = 2, description = 3, pubDate = 4, guid = 5, invalidNode = -1};
     enum nodes aNode;
     
+    
+    NSString *newTitle;
+    NSString *newLink;
+    NSString *newDescription;
+    NSDate *newPubDate;
+    NSString *newGuid;
+    
     Article *article;
     
     NSDateFormatter *dateFormatter;
     NSDateFormatter *displayDateFormatter;
     
     NSFetchedResultsController *fetchedResultsController;
+    
+    NSManagedObjectContext *myNewContext;
 }
 
 @end
@@ -42,6 +51,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    myNewContext = [NSManagedObjectContext MR_context];
+    
     dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
     
@@ -54,8 +65,21 @@
     self.title = categoryArray[self.categoryId];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
-    fetchedResultsController = [Article MR_fetchAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
     
+    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    [fetchRequest setFetchLimit:100];         // Let's say limit fetch to 100
+    [fetchRequest setFetchBatchSize:20];      // After 20 are faulted
+    
+    fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext MR_defaultContext] sectionNameKeyPath:nil cacheName:@"ArticleCache"];
+    
+    fetchedResultsController.delegate = self;
+    [NSFetchedResultsController deleteCacheWithName:@"ArticleCache"];
+    NSError *error;
+    if (![fetchedResultsController performFetch:&error]) {
+        // Update to handle the error appropriately.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    }
+
     [self requestArticles];
     
 }
@@ -109,12 +133,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return fetchedResultsController.sections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return fetchedResultsController.fetchedObjects.count;
+    id sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+
+    return [sectionInfo numberOfObjects];
 }
 
 - (void) configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath {
@@ -142,18 +168,6 @@
     return cell;
 }
 
-#pragma mark - Table View
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"didSelectRowAtIndexPath");
-    Article *selected_article = [fetchedResultsController objectAtIndexPath:indexPath];
-    selected_article.is_read = [NSNumber numberWithBool:YES];
-    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
-        // nothing to do after saved
-    }];
-    
-}
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -179,11 +193,11 @@
     if([elementName isEqualToString:@"item"]) {
         aNode = invalidNode;
         
-        article = [Article MR_createEntity];
-        article.category_id = [NSNumber numberWithInteger:self.categoryId];
-        article.is_read = [NSNumber numberWithBool:NO];
-        article.title = @"";
-        article.article_description = @"";
+        newTitle = @"";
+        newLink = @"";
+        newDescription = @"";
+        newGuid = @"";
+        newPubDate = nil;
     }
     else if([elementName isEqualToString:@"title"]) {
         aNode = title;
@@ -209,23 +223,22 @@
     string = [string stringByTrimmingCharactersInSet:[NSCharacterSet nonBaseCharacterSet]];
     string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if (string.length != 0 && article != nil) {
+    if (string.length != 0) {
         switch (aNode) {
             case title:
-                article.title = [article.title stringByAppendingString:string];
+                newTitle = [newTitle stringByAppendingString:string];
                 break;
             case articleLink:
-                [Article MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"link = %@", string]];
-                article.link = string;
+                newLink = string;
                 break;
             case description:
-                article.article_description = [article.article_description stringByAppendingString:string];
+                newDescription = [newDescription stringByAppendingString:string];
                 break;
             case guid:
-                article.guid = string;
+                newGuid = string;
                 break;
             case pubDate:
-                article.pubDate = [dateFormatter dateFromString:string];
+                newPubDate = [dateFormatter dateFromString:string];
                 break;
             default:
                 break;
@@ -235,14 +248,26 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
     if([elementName isEqualToString:@"item"]) {
-        article = nil;
+        
+        article = [Article MR_findFirstOrCreateByAttribute:@"link" withValue:newLink inContext:myNewContext];
+        if ( ! [article.pubDate isEqualToDate:newPubDate]) {
+            // check if there is any update
+            
+            article.category_id = [NSNumber numberWithInteger:self.categoryId];
+            article.is_read = [NSNumber numberWithBool:NO];
+            article.title = newTitle;
+            article.article_description = newDescription;
+            article.link = newLink;
+            article.guid = newGuid;
+            article.pubDate = newPubDate;
+        }
     }
 }
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
     NSLog(@"parserDidEndDocument");
-    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
-        // nothing to do after saved
+    [myNewContext MR_saveToPersistentStoreWithCompletion:^(BOOL contextDidSave, NSError *error){
+        NSLog(@"save completed");
     }];
 }
 

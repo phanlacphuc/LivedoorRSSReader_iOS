@@ -7,6 +7,7 @@
 //
 
 #import "FeedsViewController.h"
+#import "Feed.h"
 #import <AFNetworking/AFNetworking.h>
 
 @interface FeedsViewController () <NSXMLParserDelegate>
@@ -17,7 +18,11 @@
     //for holding the parsing result
     NSMutableDictionary *articles;
     //for matching the article title and link
-    NSString *lastTitle;
+    Feed *feed;
+    
+    NSArray *feeds;
+    
+    NSDateFormatter *dateFormatter;
 }
 
 @end
@@ -32,6 +37,9 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
     
     NSArray *categoryArray = @[@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"];
     NSArray *urlArray = @[@"http://news.livedoor.com/topics/rss/top.xml",
@@ -65,6 +73,11 @@
         
     }];
     
+    /*
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category_id = %@", self.categoryId];
+    feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
+    */
+    feeds = [Feed MR_findAll];
     
 }
 
@@ -76,26 +89,24 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [Feed MR_countOfEntities];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FeedInfoCell" forIndexPath:indexPath];
     
     // Configure the cell...
+    Feed *feed_for_this_cell = [feeds objectAtIndex:indexPath.row];
+    cell.textLabel.text = [feed_for_this_cell title];
     
     return cell;
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
@@ -150,10 +161,9 @@
 {
     if([elementName isEqualToString:@"item"]) {
         aNode = invalidNode;
-        if(articles == nil)
-        {
-            articles = [[NSMutableDictionary alloc] init];
-        }
+        
+        feed = [Feed MR_createEntity];
+        feed.is_read = [NSNumber numberWithBool:NO];
     }
     else if([elementName isEqualToString:@"title"]) {
         aNode = title;
@@ -176,41 +186,45 @@
 }
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-    switch (aNode) {
-        case title:
-            string = [string stringByTrimmingCharactersInSet:[NSCharacterSet nonBaseCharacterSet]];
-            string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if(string.length != 0)
-            {
-                lastTitle = string;
-            }
-            break;
-        case articleLink:
-            string = [string stringByTrimmingCharactersInSet:[NSCharacterSet nonBaseCharacterSet]];
-            string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if(string.length != 0 && articles != nil)
-            {
-                [articles setObject:lastTitle forKey:string];
-            }
-            break;
-        default:
-            break;
+    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet nonBaseCharacterSet]];
+    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (string.length != 0 && feed != nil) {
+        switch (aNode) {
+            case title:
+                feed.title = string;
+                break;
+            case articleLink:
+                [Feed MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"link = %@", string]];
+                feed.link = string;
+                break;
+            case description:
+                feed.feed_description = string;
+                break;
+            case guid:
+                feed.guid = string;
+                break;
+            case pubDate:
+                feed.pubDate = [dateFormatter dateFromString:string];
+                break;
+            default:
+                break;
+        }
     }
 }
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
-    if( [elementName isEqualToString:@"rss"] )
-    {
-        for (NSArray *item in articles) {
-            NSLog(@"string: %@", item[1]);
-        }
-        //NSLog(@"articles: %@", articles);
+    if([elementName isEqualToString:@"item"]) {
+        feed = nil;
     }
 }
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
-    //self.weather = @{@"data": self.xmlWeather};
-    self.title = @"XML Retrieved";
+    NSLog(@"parserDidEndDocument");
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
+        // nothing to do after saved
+    }];
+    feeds = [Feed MR_findAll];
     [self.tableView reloadData];
 }
 

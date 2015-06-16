@@ -1,0 +1,17 @@
+//
+//  LivedoorRSSReader-Prefix.pch
+//  LivedoorRSSReader
+//
+//  Created by Phan Lac Phuc on 6/16/15.
+//  Copyright (c) 2015 Phan Lac Phuc. All rights reserved.
+//
+
+#ifndef LivedoorRSSReader_LivedoorRSSReader_Prefix_pch
+#define LivedoorRSSReader_LivedoorRSSReader_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <MagicalRecord/MagicalRecord.h>
+
+#endif

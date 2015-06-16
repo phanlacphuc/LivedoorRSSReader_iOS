@@ -16,6 +16,8 @@
 		ACCEE0A11B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0A01B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m */; };
 		ACCEE0B11B2E7C9800A963A0 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0AE1B2E7C9800A963A0 /* DetailViewController.m */; };
 		ACCEE0B21B2E7C9800A963A0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */; };
+		ACE18F1F1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ACE18F1D1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld */; };
+		ACE18F251B30279100558E8D /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE18F241B30279100558E8D /* Feed.m */; };
 		F0E981A9115CD5EEF3C066A5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BA25CF1C0C4C309C9CDE5D /* libPods.a */; };
 		FF47479F131E23DF9F818DE7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BA25CF1C0C4C309C9CDE5D /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -51,6 +53,10 @@
 		ACCEE0AE1B2E7C9800A963A0 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		ACCEE0AF1B2E7C9800A963A0 /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
+		ACE18F1C1B30129800558E8D /* LivedoorRSSReader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LivedoorRSSReader-Prefix.pch"; sourceTree = "<group>"; };
+		ACE18F1E1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LivedoorRSSReaderModel.xcdatamodel; sourceTree = "<group>"; };
+		ACE18F231B30279100558E8D /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		ACE18F241B30279100558E8D /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,7 @@
 			children = (
 				ACCEE0821B2E7BAB00A963A0 /* Info.plist */,
 				ACCEE0831B2E7BAB00A963A0 /* main.m */,
+				ACE18F1C1B30129800558E8D /* LivedoorRSSReader-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -166,6 +173,9 @@
 		ACCEE0B41B2E7CCC00A963A0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ACE18F1D1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld */,
+				ACE18F231B30279100558E8D /* Feed.h */,
+				ACE18F241B30279100558E8D /* Feed.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -347,6 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACCEE0B11B2E7C9800A963A0 /* DetailViewController.m in Sources */,
+				ACE18F1F1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld in Sources */,
+				ACE18F251B30279100558E8D /* Feed.m in Sources */,
 				ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */,
 				ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */,
 				AC7B30081B2E91DF00B91F3A /* FeedsViewController.m in Sources */,
@@ -473,6 +485,8 @@
 			baseConfigurationReference = 104857F1950F8BFAB96C3F29 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LivedoorRSSReader/LivedoorRSSReader-Prefix.pch";
 				INFOPLIST_FILE = LivedoorRSSReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -485,6 +499,8 @@
 			baseConfigurationReference = 753D4CD55720B6AD2292E981 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LivedoorRSSReader/LivedoorRSSReader-Prefix.pch";
 				INFOPLIST_FILE = LivedoorRSSReader/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -559,6 +575,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		ACE18F1D1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				ACE18F1E1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodel */,
+			);
+			currentVersion = ACE18F1E1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodel */;
+			path = LivedoorRSSReaderModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = ACCEE0761B2E7BAB00A963A0 /* Project object */;
 }

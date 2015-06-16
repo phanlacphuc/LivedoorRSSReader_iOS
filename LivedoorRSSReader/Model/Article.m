@@ -1,19 +1,19 @@
 //
-//  Feed.m
+//  Article.m
 //  LivedoorRSSReader
 //
 //  Created by Phan Lac Phuc on 6/16/15.
 //  Copyright (c) 2015 Phan Lac Phuc. All rights reserved.
 //
 
-#import "Feed.h"
+#import "Article.h"
 
 
-@implementation Feed
+@implementation Article
 
 @dynamic title;
 @dynamic link;
-@dynamic feed_description;
+@dynamic article_description;
 @dynamic guid;
 @dynamic pubDate;
 @dynamic category_id;

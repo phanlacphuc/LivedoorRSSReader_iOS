@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Feed.h"
+#import "Article.h"
 
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) Feed *feed;
+@property (strong, nonatomic) Article *article;
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 
 @end

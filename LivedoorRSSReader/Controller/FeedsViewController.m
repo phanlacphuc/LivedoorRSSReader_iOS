@@ -7,7 +7,7 @@
 //
 
 #import "FeedsViewController.h"
-#import "Feed.h"
+#import "Article.h"
 #import "DetailViewController.h"
 #import <AFNetworking/AFNetworking.h>
 
@@ -16,12 +16,9 @@
     //for switch and case
     enum nodes {title = 1, articleLink = 2, description = 3, pubDate = 4, guid = 5, invalidNode = -1};
     enum nodes aNode;
-    //for holding the parsing result
-    NSMutableDictionary *articles;
-    //for matching the article title and link
-    Feed *feed;
     
-    NSArray *feeds;
+    Article *article;
+    NSArray *articles;
     
     NSDateFormatter *dateFormatter;
     NSDateFormatter *displayDateFormatter;
@@ -52,11 +49,11 @@
     self.title = categoryArray[self.categoryId];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
-    //feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
+    //articles = [Article MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
     
-    feeds = [Feed MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    articles = [Article MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
     
-    [self requestFeeds];
+    [self requestArticles];
     
 }
 
@@ -68,7 +65,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)requestFeeds {
+- (void)requestArticles {
     
     NSArray *urlArray = @[@"http://news.livedoor.com/topics/rss/top.xml",
                           @"http://news.livedoor.com/topics/rss/dom.xml",
@@ -102,7 +99,7 @@
 }
 
 - (IBAction)refresh:(UIRefreshControl *)sender {
-    [self requestFeeds];
+    [self requestArticles];
 }
 
 #pragma mark - Table view data source
@@ -114,17 +111,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return feeds.count;
+    return articles.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FeedInfoCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    Feed *feed_for_this_cell = [feeds objectAtIndex:indexPath.row];
-    cell.textLabel.text = feed_for_this_cell.title;
-    cell.detailTextLabel.text = [displayDateFormatter stringFromDate:feed_for_this_cell.pubDate];
-    if (feed_for_this_cell.is_read.boolValue) {
+    Article *article_this_cell = [articles objectAtIndex:indexPath.row];
+    cell.textLabel.text = article_this_cell.title;
+    cell.detailTextLabel.text = [displayDateFormatter stringFromDate:article_this_cell.pubDate];
+    if (article_this_cell.is_read.boolValue) {
         [cell setBackgroundColor:[UIColor whiteColor]];
     }
     else {
@@ -138,8 +135,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"didSelectRowAtIndexPath");
-    Feed *selected_feed = [feeds objectAtIndex:indexPath.row];
-    selected_feed.is_read = [NSNumber numberWithBool:YES];
+    Article *selected_article = [articles objectAtIndex:indexPath.row];
+    selected_article.is_read = [NSNumber numberWithBool:YES];
     [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
         // nothing to do after saved
     }];
@@ -155,7 +152,7 @@
     
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        [(DetailViewController*)[segue destinationViewController] setFeed:[feeds objectAtIndex:indexPath.row]];
+        [(DetailViewController*)[segue destinationViewController] setArticle:[articles objectAtIndex:indexPath.row]];
     }
 }
 
@@ -170,11 +167,11 @@
     if([elementName isEqualToString:@"item"]) {
         aNode = invalidNode;
         
-        feed = [Feed MR_createEntity];
-        feed.category_id = [NSNumber numberWithInteger:self.categoryId];
-        feed.is_read = [NSNumber numberWithBool:NO];
-        feed.title = @"";
-        feed.feed_description = @"";
+        article = [Article MR_createEntity];
+        article.category_id = [NSNumber numberWithInteger:self.categoryId];
+        article.is_read = [NSNumber numberWithBool:NO];
+        article.title = @"";
+        article.article_description = @"";
     }
     else if([elementName isEqualToString:@"title"]) {
         aNode = title;
@@ -200,23 +197,23 @@
     string = [string stringByTrimmingCharactersInSet:[NSCharacterSet nonBaseCharacterSet]];
     string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if (string.length != 0 && feed != nil) {
+    if (string.length != 0 && article != nil) {
         switch (aNode) {
             case title:
-                feed.title = [feed.title stringByAppendingString:string];
+                article.title = [article.title stringByAppendingString:string];
                 break;
             case articleLink:
-                [Feed MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"link = %@", string]];
-                feed.link = string;
+                [Article MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"link = %@", string]];
+                article.link = string;
                 break;
             case description:
-                feed.feed_description = [feed.feed_description stringByAppendingString:string];
+                article.article_description = [article.article_description stringByAppendingString:string];
                 break;
             case guid:
-                feed.guid = string;
+                article.guid = string;
                 break;
             case pubDate:
-                feed.pubDate = [dateFormatter dateFromString:string];
+                article.pubDate = [dateFormatter dateFromString:string];
                 break;
             default:
                 break;
@@ -226,7 +223,7 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
     if([elementName isEqualToString:@"item"]) {
-        feed = nil;
+        article = nil;
     }
 }
 - (void) parserDidEndDocument:(NSXMLParser *)parser
@@ -239,7 +236,7 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category_id = %d", self.categoryId];
     //feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
     
-    feeds = [Feed MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    articles = [Article MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
     
     [self.tableView reloadData];
 }

@@ -17,7 +17,7 @@
 		ACCEE0B11B2E7C9800A963A0 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0AE1B2E7C9800A963A0 /* DetailViewController.m */; };
 		ACCEE0B21B2E7C9800A963A0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */; };
 		ACE18F1F1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ACE18F1D1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld */; };
-		ACE18F251B30279100558E8D /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE18F241B30279100558E8D /* Feed.m */; };
+		ACE18F251B30279100558E8D /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE18F241B30279100558E8D /* Article.m */; };
 		F0E981A9115CD5EEF3C066A5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BA25CF1C0C4C309C9CDE5D /* libPods.a */; };
 		FF47479F131E23DF9F818DE7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BA25CF1C0C4C309C9CDE5D /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -55,8 +55,8 @@
 		ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		ACE18F1C1B30129800558E8D /* LivedoorRSSReader-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LivedoorRSSReader-Prefix.pch"; sourceTree = "<group>"; };
 		ACE18F1E1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LivedoorRSSReaderModel.xcdatamodel; sourceTree = "<group>"; };
-		ACE18F231B30279100558E8D /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
-		ACE18F241B30279100558E8D /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
+		ACE18F231B30279100558E8D /* Article.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Article.h; sourceTree = "<group>"; };
+		ACE18F241B30279100558E8D /* Article.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Article.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,8 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				ACE18F1D1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld */,
-				ACE18F231B30279100558E8D /* Feed.h */,
-				ACE18F241B30279100558E8D /* Feed.m */,
+				ACE18F231B30279100558E8D /* Article.h */,
+				ACE18F241B30279100558E8D /* Article.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -358,7 +358,7 @@
 			files = (
 				ACCEE0B11B2E7C9800A963A0 /* DetailViewController.m in Sources */,
 				ACE18F1F1B3015AA00558E8D /* LivedoorRSSReaderModel.xcdatamodeld in Sources */,
-				ACE18F251B30279100558E8D /* Feed.m in Sources */,
+				ACE18F251B30279100558E8D /* Article.m in Sources */,
 				ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */,
 				ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */,
 				AC7B30081B2E91DF00B91F3A /* FeedsViewController.m in Sources */,

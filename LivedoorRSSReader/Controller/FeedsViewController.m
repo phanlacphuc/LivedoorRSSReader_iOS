@@ -38,6 +38,19 @@
 
 @implementation FeedsViewController
 
+static NSString *categoryArray[] = {@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"};
+static NSString *urlArray[] = {
+    @"http://news.livedoor.com/topics/rss/top.xml",
+    @"http://news.livedoor.com/topics/rss/dom.xml",
+    @"http://news.livedoor.com/topics/rss/int.xml",
+    @"http://news.livedoor.com/topics/rss/eco.xml",
+    @"http://news.livedoor.com/topics/rss/ent.xml",
+    @"http://news.livedoor.com/topics/rss/spo.xml",
+    @"http://news.livedoor.com/rss/summary/52.xml",
+    @"http://news.livedoor.com/topics/rss/gourmet.xml",
+    @"http://news.livedoor.com/topics/rss/love.xml",
+    @"http://news.livedoor.com/topics/rss/trend.xml"
+};
 
 #pragma mark - variables initialization
 
@@ -101,8 +114,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    NSArray *categoryArray = @[@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"];
-    
     self.title = categoryArray[self.categoryId];
     
     [NSFetchedResultsController deleteCacheWithName:@"ArticleCache"];
@@ -126,16 +137,6 @@
 
 - (void)requestArticles {
     
-    NSArray *urlArray = @[@"http://news.livedoor.com/topics/rss/top.xml",
-                          @"http://news.livedoor.com/topics/rss/dom.xml",
-                          @"http://news.livedoor.com/topics/rss/int.xml",
-                          @"http://news.livedoor.com/topics/rss/eco.xml",
-                          @"http://news.livedoor.com/topics/rss/ent.xml",
-                          @"http://news.livedoor.com/topics/rss/spo.xml",
-                          @"http://news.livedoor.com/rss/summary/52.xml",
-                          @"http://news.livedoor.com/topics/rss/gourmet.xml",
-                          @"http://news.livedoor.com/topics/rss/love.xml",
-                          @"http://news.livedoor.com/topics/rss/trend.xml"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];

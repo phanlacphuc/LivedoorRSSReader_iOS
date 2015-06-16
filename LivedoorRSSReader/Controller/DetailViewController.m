@@ -9,7 +9,9 @@
 #import "DetailViewController.h"
 
 @interface DetailViewController ()
-
+{
+    NSDateFormatter *displayDateFormatter;
+}
 @end
 
 @implementation DetailViewController
@@ -17,8 +19,25 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.feed) {
-        [self.webview loadHTMLString:self.feed.feed_description baseURL:nil];
-        NSLog(@"detail: %@", self.feed.feed_description);
+        
+        displayDateFormatter = [[NSDateFormatter alloc]init];
+        [displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+        [displayDateFormatter setDateFormat:@"yyyy年mm月dd日 HH時mm分"];
+        
+        NSString *pubDateString = [displayDateFormatter stringFromDate:self.feed.pubDate];
+        
+        NSString *htmlString = @"";
+        htmlString = [htmlString stringByAppendingString:@"<h3>"];
+        htmlString = [htmlString stringByAppendingString:self.feed.title];
+        htmlString = [htmlString stringByAppendingString:@"</h3>"];
+        htmlString = [htmlString stringByAppendingString:pubDateString];
+        htmlString = [htmlString stringByAppendingString:@"<br />"];
+        htmlString = [htmlString stringByAppendingString:@"<br />"];
+        htmlString = [htmlString stringByAppendingString:self.feed.feed_description];
+        htmlString = [htmlString stringByAppendingString:@"<br />"];
+        htmlString = [htmlString stringByAppendingString:@"<h4>関連記事</h4>"];
+        
+        [self.webview loadHTMLString:htmlString baseURL:nil];
     }
 }
 

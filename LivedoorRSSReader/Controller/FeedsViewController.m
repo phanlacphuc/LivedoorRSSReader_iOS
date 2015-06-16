@@ -24,6 +24,7 @@
     NSArray *feeds;
     
     NSDateFormatter *dateFormatter;
+    NSDateFormatter *displayDateFormatter;
 }
 
 @end
@@ -42,6 +43,10 @@
     dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
     
+    displayDateFormatter = [[NSDateFormatter alloc]init];
+    [displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    [displayDateFormatter setDateFormat:@"yyyy年mm月dd日 HH時mm分"];
+    
     NSArray *categoryArray = @[@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"];
     
     self.title = categoryArray[self.categoryId];
@@ -55,6 +60,9 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -114,9 +122,28 @@
     
     // Configure the cell...
     Feed *feed_for_this_cell = [feeds objectAtIndex:indexPath.row];
-    cell.textLabel.text = [feed_for_this_cell title];
+    cell.textLabel.text = feed_for_this_cell.title;
+    cell.detailTextLabel.text = [displayDateFormatter stringFromDate:feed_for_this_cell.pubDate];
+    if (feed_for_this_cell.is_read.boolValue) {
+        [cell setBackgroundColor:[UIColor whiteColor]];
+    }
+    else {
+        [cell setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+    }
     
     return cell;
+}
+
+#pragma mark - Table View
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"didSelectRowAtIndexPath");
+    Feed *selected_feed = [feeds objectAtIndex:indexPath.row];
+    selected_feed.is_read = [NSNumber numberWithBool:YES];
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
+        // nothing to do after saved
+    }];
+    
 }
 
 #pragma mark - Navigation

@@ -58,7 +58,7 @@
     
     displayDateFormatter = [[NSDateFormatter alloc]init];
     [displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    [displayDateFormatter setDateFormat:@"yyyy年mm月dd日 HH時mm分"];
+    [displayDateFormatter setDateFormat:@"yyyy年MM月dd日 HH時mm分"];
     
     NSArray *categoryArray = @[@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"];
     

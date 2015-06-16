@@ -22,7 +22,7 @@
         
         displayDateFormatter = [[NSDateFormatter alloc]init];
         [displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-        [displayDateFormatter setDateFormat:@"yyyy年mm月dd日 HH時mm分"];
+        [displayDateFormatter setDateFormat:@"yyyy年MM月dd日 HH時mm分"];
         
         NSString *pubDateString = [displayDateFormatter stringFromDate:self.article.pubDate];
         

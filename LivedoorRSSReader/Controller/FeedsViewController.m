@@ -26,20 +26,70 @@
     
     Article *article;
     
-    NSDateFormatter *dateFormatter;
-    NSDateFormatter *displayDateFormatter;
+    NSDateFormatter *_dateFormatter;
+    NSDateFormatter *_displayDateFormatter;
     
-    NSFetchedResultsController *fetchedResultsController;
+    NSFetchedResultsController *_fetchedResultsController;
     
-    NSManagedObjectContext *myNewContext;
+    NSManagedObjectContext *_newContextForSavingInBackground;
 }
 
 @end
 
 @implementation FeedsViewController
 
+
+#pragma mark - variables initialization
+
+- (NSDateFormatter *) dateFormatter {
+    if (_dateFormatter != nil) {
+        return _dateFormatter;
+    }
+    _dateFormatter = [[NSDateFormatter alloc]init];
+    [_dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
+    return _dateFormatter;
+}
+
+- (NSDateFormatter *) displayDateFormatter {
+    if (_displayDateFormatter != nil) {
+        return _displayDateFormatter;
+    }
+
+    _displayDateFormatter = [[NSDateFormatter alloc]init];
+    [_displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    [_displayDateFormatter setDateFormat:@"yyyy年MM月dd日 HH時mm分"];
+    return _displayDateFormatter;
+}
+
+- (NSFetchedResultsController*) fetchedResultsController {
+    
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
+    
+    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    [fetchRequest setFetchLimit:100];         // Let's say limit fetch to 100
+    [fetchRequest setFetchBatchSize:20];      // After 20 are faulted
+    
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext MR_defaultContext] sectionNameKeyPath:nil cacheName:@"ArticleCache"];
+    
+    _fetchedResultsController.delegate = self;
+    return _fetchedResultsController;
+}
+
+- (NSManagedObjectContext*) newContextForSavingInBackground {
+    
+    if (_newContextForSavingInBackground != nil) {
+        return _newContextForSavingInBackground;
+    }
+    _newContextForSavingInBackground = [NSManagedObjectContext MR_context];
+    return _newContextForSavingInBackground;
+}
+
 - (void)viewDidUnload {
-    fetchedResultsController = nil;
+    _fetchedResultsController = nil;
 }
 
 - (void)viewDidLoad {
@@ -51,31 +101,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    myNewContext = [NSManagedObjectContext MR_context];
-    
-    dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
-    
-    displayDateFormatter = [[NSDateFormatter alloc]init];
-    [displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    [displayDateFormatter setDateFormat:@"yyyy年MM月dd日 HH時mm分"];
-    
     NSArray *categoryArray = @[@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"];
     
     self.title = categoryArray[self.categoryId];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
-    
-    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
-    [fetchRequest setFetchLimit:100];         // Let's say limit fetch to 100
-    [fetchRequest setFetchBatchSize:20];      // After 20 are faulted
-    
-    fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext MR_defaultContext] sectionNameKeyPath:nil cacheName:@"ArticleCache"];
-    
-    fetchedResultsController.delegate = self;
     [NSFetchedResultsController deleteCacheWithName:@"ArticleCache"];
     NSError *error;
-    if (![fetchedResultsController performFetch:&error]) {
+    if (![[self fetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
@@ -133,21 +165,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return fetchedResultsController.sections.count;
+    return [[[self fetchedResultsController] sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    id sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+    id sectionInfo = [[[self fetchedResultsController] sections] objectAtIndex:section];
 
     return [sectionInfo numberOfObjects];
 }
 
 - (void) configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath {
     
-    Article *article_this_cell = [fetchedResultsController objectAtIndexPath:indexPath];
+    Article *article_this_cell = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     cell.textLabel.text = article_this_cell.title;
-    cell.detailTextLabel.text = [displayDateFormatter stringFromDate:article_this_cell.pubDate];
+    cell.detailTextLabel.text = [[self displayDateFormatter] stringFromDate:article_this_cell.pubDate];
     if (article_this_cell.is_read.boolValue) {
         [cell setBackgroundColor:[UIColor whiteColor]];
         [cell.textLabel setBackgroundColor:[UIColor whiteColor]];
@@ -177,7 +209,8 @@
     
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        [(DetailViewController*)[segue destinationViewController] setArticle:[fetchedResultsController objectAtIndexPath:indexPath]];
+        Article *selectedArticle = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        [(DetailViewController*)[segue destinationViewController] setArticle:selectedArticle];
     }
 }
 
@@ -238,7 +271,7 @@
                 newGuid = string;
                 break;
             case pubDate:
-                newPubDate = [dateFormatter dateFromString:string];
+                newPubDate = [[self dateFormatter] dateFromString:string];
                 break;
             default:
                 break;
@@ -249,7 +282,7 @@
 {
     if([elementName isEqualToString:@"item"]) {
         
-        article = [Article MR_findFirstOrCreateByAttribute:@"link" withValue:newLink inContext:myNewContext];
+        article = [Article MR_findFirstOrCreateByAttribute:@"link" withValue:newLink inContext:[self newContextForSavingInBackground]];
         if ( ! [article.pubDate isEqualToDate:newPubDate]) {
             // check if there is any update
             
@@ -266,7 +299,8 @@
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
     NSLog(@"parserDidEndDocument");
-    [myNewContext MR_saveToPersistentStoreWithCompletion:^(BOOL contextDidSave, NSError *error){
+    NSManagedObjectContext *context = [self newContextForSavingInBackground];
+    [context MR_saveToPersistentStoreWithCompletion:^(BOOL contextDidSave, NSError *error){
         NSLog(@"save completed");
     }];
 }

@@ -9,9 +9,7 @@
 #import "DetailViewController.h"
 
 @interface DetailViewController ()
-{
-    NSDateFormatter *displayDateFormatter;
-}
+
 @end
 
 @implementation DetailViewController
@@ -20,7 +18,7 @@
     // Update the user interface for the detail item.
     if (self.article) {
         
-        displayDateFormatter = [[NSDateFormatter alloc]init];
+        NSDateFormatter *displayDateFormatter = [[NSDateFormatter alloc]init];
         [displayDateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
         [displayDateFormatter setDateFormat:@"yyyy年MM月dd日 HH時mm分"];
         
@@ -47,7 +45,7 @@
     [self configureView];
     
     if (!self.article.is_read.boolValue){
-        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
             // nothing to do after saved
             Article *artical = [self.article MR_inContext:localContext];
             artical.is_read = [NSNumber numberWithBool:YES];

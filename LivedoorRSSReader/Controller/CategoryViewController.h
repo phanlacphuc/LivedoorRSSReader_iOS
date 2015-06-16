@@ -1,5 +1,5 @@
 //
-//  MasterViewController.h
+//  CategoryViewController.h
 //  LivedoorRSSReader
 //
 //  Created by Phan Lac Phuc on 6/15/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MasterViewController : UITableViewController
+@interface CategoryViewController : UITableViewController
 
 
 @end

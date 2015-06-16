@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC7B30081B2E91DF00B91F3A /* FeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7B30071B2E91DF00B91F3A /* FeedsViewController.m */; };
 		ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0831B2E7BAB00A963A0 /* main.m */; };
 		ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0861B2E7BAB00A963A0 /* AppDelegate.m */; };
 		ACCEE0901B2E7BAB00A963A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACCEE08E1B2E7BAB00A963A0 /* Main.storyboard */; };
@@ -14,8 +15,9 @@
 		ACCEE0951B2E7BAC00A963A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACCEE0931B2E7BAC00A963A0 /* LaunchScreen.xib */; };
 		ACCEE0A11B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0A01B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m */; };
 		ACCEE0B11B2E7C9800A963A0 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0AE1B2E7C9800A963A0 /* DetailViewController.m */; };
-		ACCEE0B21B2E7C9800A963A0 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0B01B2E7C9800A963A0 /* MasterViewController.m */; };
+		ACCEE0B21B2E7C9800A963A0 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */; };
 		F0E981A9115CD5EEF3C066A5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BA25CF1C0C4C309C9CDE5D /* libPods.a */; };
+		FF47479F131E23DF9F818DE7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32BA25CF1C0C4C309C9CDE5D /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,8 @@
 		104857F1950F8BFAB96C3F29 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		32BA25CF1C0C4C309C9CDE5D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		753D4CD55720B6AD2292E981 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AC7B30061B2E91DF00B91F3A /* FeedsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedsViewController.h; sourceTree = "<group>"; };
+		AC7B30071B2E91DF00B91F3A /* FeedsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedsViewController.m; sourceTree = "<group>"; };
 		ACCEE07E1B2E7BAB00A963A0 /* LivedoorRSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LivedoorRSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCEE0821B2E7BAB00A963A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ACCEE0831B2E7BAB00A963A0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -45,8 +49,8 @@
 		ACCEE0A01B2E7BAC00A963A0 /* LivedoorRSSReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LivedoorRSSReaderTests.m; sourceTree = "<group>"; };
 		ACCEE0AD1B2E7C9800A963A0 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		ACCEE0AE1B2E7C9800A963A0 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		ACCEE0AF1B2E7C9800A963A0 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		ACCEE0B01B2E7C9800A963A0 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		ACCEE0AF1B2E7C9800A963A0 /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
+		ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF47479F131E23DF9F818DE7 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +109,8 @@
 				ACCEE0AC1B2E7C2F00A963A0 /* Controller */,
 				ACCEE0851B2E7BAB00A963A0 /* AppDelegate.h */,
 				ACCEE0861B2E7BAB00A963A0 /* AppDelegate.m */,
-				ACCEE08E1B2E7BAB00A963A0 /* Main.storyboard */,
 				ACCEE0911B2E7BAB00A963A0 /* Images.xcassets */,
+				ACCEE08E1B2E7BAB00A963A0 /* Main.storyboard */,
 				ACCEE0931B2E7BAC00A963A0 /* LaunchScreen.xib */,
 				ACCEE0811B2E7BAB00A963A0 /* Supporting Files */,
 			);
@@ -143,8 +148,10 @@
 			children = (
 				ACCEE0AD1B2E7C9800A963A0 /* DetailViewController.h */,
 				ACCEE0AE1B2E7C9800A963A0 /* DetailViewController.m */,
-				ACCEE0AF1B2E7C9800A963A0 /* MasterViewController.h */,
-				ACCEE0B01B2E7C9800A963A0 /* MasterViewController.m */,
+				ACCEE0AF1B2E7C9800A963A0 /* CategoryViewController.h */,
+				ACCEE0B01B2E7C9800A963A0 /* CategoryViewController.m */,
+				AC7B30061B2E91DF00B91F3A /* FeedsViewController.h */,
+				AC7B30071B2E91DF00B91F3A /* FeedsViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -198,9 +205,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACCEE0A71B2E7BAC00A963A0 /* Build configuration list for PBXNativeTarget "LivedoorRSSReaderTests" */;
 			buildPhases = (
+				3ED08CE129560A9848C07898 /* Check Pods Manifest.lock */,
 				ACCEE0961B2E7BAC00A963A0 /* Sources */,
 				ACCEE0971B2E7BAC00A963A0 /* Frameworks */,
 				ACCEE0981B2E7BAC00A963A0 /* Resources */,
+				B55141498AEE1C4FBF5BD407 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -285,6 +294,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		3ED08CE129560A9848C07898 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B55141498AEE1C4FBF5BD407 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FF9C9623CADBCB08D3C30CC9 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,7 +349,8 @@
 				ACCEE0B11B2E7C9800A963A0 /* DetailViewController.m in Sources */,
 				ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */,
 				ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */,
-				ACCEE0B21B2E7C9800A963A0 /* MasterViewController.m in Sources */,
+				AC7B30081B2E91DF00B91F3A /* FeedsViewController.m in Sources */,
+				ACCEE0B21B2E7C9800A963A0 /* CategoryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +494,7 @@
 		};
 		ACCEE0A81B2E7BAC00A963A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 104857F1950F8BFAB96C3F29 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -473,6 +514,7 @@
 		};
 		ACCEE0A91B2E7BAC00A963A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 753D4CD55720B6AD2292E981 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

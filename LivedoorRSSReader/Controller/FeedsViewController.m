@@ -11,22 +11,27 @@
 #import "DetailViewController.h"
 #import <AFNetworking/AFNetworking.h>
 
-@interface FeedsViewController () <NSXMLParserDelegate>
+@interface FeedsViewController () <NSXMLParserDelegate, NSFetchedResultsControllerDelegate>
 {
     //for switch and case
     enum nodes {title = 1, articleLink = 2, description = 3, pubDate = 4, guid = 5, invalidNode = -1};
     enum nodes aNode;
     
     Article *article;
-    NSArray *articles;
     
     NSDateFormatter *dateFormatter;
     NSDateFormatter *displayDateFormatter;
+    
+    NSFetchedResultsController *fetchedResultsController;
 }
 
 @end
 
 @implementation FeedsViewController
+
+- (void)viewDidUnload {
+    fetchedResultsController = nil;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,9 +54,7 @@
     self.title = categoryArray[self.categoryId];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
-    //articles = [Article MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
-    
-    articles = [Article MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    fetchedResultsController = [Article MR_fetchAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
     
     [self requestArticles];
     
@@ -111,22 +114,30 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return articles.count;
+    return fetchedResultsController.fetchedObjects.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FeedInfoCell" forIndexPath:indexPath];
+- (void) configureCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath {
     
-    // Configure the cell...
-    Article *article_this_cell = [articles objectAtIndex:indexPath.row];
+    Article *article_this_cell = [fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = article_this_cell.title;
     cell.detailTextLabel.text = [displayDateFormatter stringFromDate:article_this_cell.pubDate];
     if (article_this_cell.is_read.boolValue) {
         [cell setBackgroundColor:[UIColor whiteColor]];
+        [cell.textLabel setBackgroundColor:[UIColor whiteColor]];
+        [cell.detailTextLabel setBackgroundColor:[UIColor whiteColor]];
     }
     else {
         [cell setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+        [cell.textLabel setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+        [cell.detailTextLabel setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
     }
+    
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FeedInfoCell" forIndexPath:indexPath];
+    
+    [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
@@ -135,7 +146,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"didSelectRowAtIndexPath");
-    Article *selected_article = [articles objectAtIndex:indexPath.row];
+    Article *selected_article = [fetchedResultsController objectAtIndexPath:indexPath];
     selected_article.is_read = [NSNumber numberWithBool:YES];
     [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
         // nothing to do after saved
@@ -152,12 +163,13 @@
     
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        [(DetailViewController*)[segue destinationViewController] setArticle:[articles objectAtIndex:indexPath.row]];
+        [(DetailViewController*)[segue destinationViewController] setArticle:[fetchedResultsController objectAtIndexPath:indexPath]];
     }
 }
 
 
 #pragma mark - NSXMLParserDelegate
+
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
     //self.xmlWeather = [NSMutableDictionary dictionary];
@@ -232,13 +244,48 @@
     [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
         // nothing to do after saved
     }];
+}
+
+
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category_id = %d", self.categoryId];
-    //feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
+    UITableView *tableView = self.tableView;
     
-    articles = [Article MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
-    
-    [self.tableView reloadData];
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray
+                                               arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray
+                                               arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.tableView endUpdates];
 }
 
 @end

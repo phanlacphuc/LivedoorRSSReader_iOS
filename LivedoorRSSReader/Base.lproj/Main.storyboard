@@ -219,7 +219,7 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Categories" id="tQt-TN-PWz"/>
+                    <navigationItem key="navigationItem" title="カテゴリ" id="tQt-TN-PWz"/>
                     <connections>
                         <segue destination="rKU-kQ-02i" kind="show" identifier="showFeeds" id="mqJ-cO-3OC"/>
                     </connections>
@@ -266,7 +266,7 @@
                             <outlet property="delegate" destination="rKU-kQ-02i" id="Lnl-7p-Cbk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Feeds" id="KiQ-hU-YxF"/>
+                    <navigationItem key="navigationItem" title="記事" id="KiQ-hU-YxF"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="XJO-Qr-iIR">
                         <autoresizingMask key="autoresizingMask"/>
                         <connections>
@@ -301,7 +301,7 @@
                             <constraint firstItem="Jbe-9z-St7" firstAttribute="width" secondItem="MMQ-IT-qOo" secondAttribute="width" id="trz-Xf-yHW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Detail" id="cra-N8-TIN"/>
+                    <navigationItem key="navigationItem" title="内容" id="cra-N8-TIN"/>
                     <connections>
                         <outlet property="webview" destination="Jbe-9z-St7" id="BLk-Ui-Jl3"/>
                     </connections>

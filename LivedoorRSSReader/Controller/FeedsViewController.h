@@ -12,4 +12,6 @@
 
 @property NSInteger categoryId;
 
+- (IBAction)refresh:(UIRefreshControl*)sender;
+
 @end

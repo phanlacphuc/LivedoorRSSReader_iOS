@@ -8,6 +8,7 @@
 
 #import "FeedsViewController.h"
 #import "Feed.h"
+#import "DetailViewController.h"
 #import <AFNetworking/AFNetworking.h>
 
 @interface FeedsViewController () <NSXMLParserDelegate>
@@ -42,6 +43,25 @@
     [dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
     
     NSArray *categoryArray = @[@"主要", @"国内", @"海外", @"IT 経済", @"芸能", @"スポーツ", @"映画", @"グルメ", @"女子", @"トレンド"];
+    
+    self.title = categoryArray[self.categoryId];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
+    //feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
+    
+    feeds = [Feed MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    
+    [self requestFeeds];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)requestFeeds {
+    
     NSArray *urlArray = @[@"http://news.livedoor.com/topics/rss/top.xml",
                           @"http://news.livedoor.com/topics/rss/dom.xml",
                           @"http://news.livedoor.com/topics/rss/int.xml",
@@ -52,9 +72,6 @@
                           @"http://news.livedoor.com/topics/rss/gourmet.xml",
                           @"http://news.livedoor.com/topics/rss/love.xml",
                           @"http://news.livedoor.com/topics/rss/trend.xml"];
-    
-    self.title = categoryArray[self.categoryId];
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/rss+xml"];
@@ -66,24 +83,18 @@
         [xmlParser setShouldProcessNamespaces:YES];
         [xmlParser setDelegate:self];
         [xmlParser parse];
+        [self.refreshControl endRefreshing];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Error: %@", error);
+        [self.refreshControl endRefreshing];
         
     }];
-    
-    /*
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category_id = %@", self.categoryId];
-    feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
-    */
-    feeds = [Feed MR_findAll];
-    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)refresh:(UIRefreshControl *)sender {
+    [self requestFeeds];
 }
 
 #pragma mark - Table view data source
@@ -95,7 +106,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [Feed MR_countOfEntities];
+    return feeds.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -108,49 +119,19 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        [(DetailViewController*)[segue destinationViewController] setFeed:[feeds objectAtIndex:indexPath.row]];
+    }
 }
-*/
+
 
 #pragma mark - NSXMLParserDelegate
 - (void)parserDidStartDocument:(NSXMLParser *)parser
@@ -163,7 +144,10 @@
         aNode = invalidNode;
         
         feed = [Feed MR_createEntity];
+        feed.category_id = [NSNumber numberWithInteger:self.categoryId];
         feed.is_read = [NSNumber numberWithBool:NO];
+        feed.title = @"";
+        feed.feed_description = @"";
     }
     else if([elementName isEqualToString:@"title"]) {
         aNode = title;
@@ -192,14 +176,14 @@
     if (string.length != 0 && feed != nil) {
         switch (aNode) {
             case title:
-                feed.title = string;
+                feed.title = [feed.title stringByAppendingString:string];
                 break;
             case articleLink:
                 [Feed MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"link = %@", string]];
                 feed.link = string;
                 break;
             case description:
-                feed.feed_description = string;
+                feed.feed_description = [feed.feed_description stringByAppendingString:string];
                 break;
             case guid:
                 feed.guid = string;
@@ -224,7 +208,12 @@
     [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext){
         // nothing to do after saved
     }];
-    feeds = [Feed MR_findAll];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"category_id = %d", self.categoryId];
+    //feeds = [Feed MR_fetchAllSortedBy:nil ascending:YES withPredicate:predicate groupBy:nil delegate:self];
+    
+    feeds = [Feed MR_findAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    
     [self.tableView reloadData];
 }
 

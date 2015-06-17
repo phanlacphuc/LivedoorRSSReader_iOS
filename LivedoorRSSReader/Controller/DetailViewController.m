@@ -10,16 +10,28 @@
 #import "LivedoorRSSReader_XMLParserDelegate.h"
 #import <AFNetworking/AFNetworking.h>
 
-@interface DetailViewController () <LivedoorRSSReader_XMLParserDelegate>
+@interface DetailViewController () <LivedoorRSSReader_XMLParserDelegate, UIWebViewDelegate>
 {
     NSString *htmlString;
+    NSString *_tempHtmlFileUrl;
     NSUInteger numberOfFoundRelatedArticles;
 }
 @end
 
 @implementation DetailViewController
 
+- (NSString*) tempHtmlFileUrl {
+    if (_tempHtmlFileUrl == nil) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+        _tempHtmlFileUrl = [paths objectAtIndex:0];
+        _tempHtmlFileUrl = [_tempHtmlFileUrl stringByAppendingPathComponent:@"temp.html"];
+    }
+    return _tempHtmlFileUrl;
+}
 - (void)configureView {
+    
+    self.webview.delegate = self;
+    
     // Update the user interface for the detail item.
     if (self.article) {
         
@@ -29,7 +41,7 @@
         
         NSString *pubDateString = [displayDateFormatter stringFromDate:self.article.pub_date];
         
-        htmlString = @"";
+        htmlString = @"<meta http-equiv=""Content-Type"" content=""text/html;charset=utf-8"">";
         htmlString = [htmlString stringByAppendingString:@"<h3>"];
         htmlString = [htmlString stringByAppendingString:self.article.title];
         htmlString = [htmlString stringByAppendingString:@"</h3>"];
@@ -40,7 +52,10 @@
         htmlString = [htmlString stringByAppendingString:@"<br />"];
         htmlString = [htmlString stringByAppendingString:@"<h4>関連記事</h4>"];
         
-        [self.webview loadHTMLString:htmlString baseURL:nil];
+        // to kepp the transition history of webview, we have to load from file or url, not from htmlString
+        [htmlString writeToFile:[self tempHtmlFileUrl] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[self tempHtmlFileUrl]]]];
         
         
     }
@@ -60,6 +75,11 @@
     }
     
     [self requestRelatedArticles];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -141,8 +161,21 @@
 }
 - (void) didParseDocument {
     
-    [self.webview loadHTMLString:htmlString baseURL:nil];
+    // to kepp the transition history of webview, we have to load from file or url, not from htmlString
+    [htmlString writeToFile:[self tempHtmlFileUrl] atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
+    [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[self tempHtmlFileUrl]]]];
 }
 
+#pragma mark - UIWebViewDelegate
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    // Enable or disable back
+    [self.backButtonItem setEnabled:[self.webview canGoBack]];
+    
+    // Enable or disable forward
+    [self.forwardButtonItem setEnabled:[self.webview canGoForward]];
+}
 
 @end

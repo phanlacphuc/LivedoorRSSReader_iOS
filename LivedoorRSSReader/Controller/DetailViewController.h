@@ -12,6 +12,10 @@
 @interface DetailViewController : UIViewController
 
 @property (strong, nonatomic) Article *article;
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *forwardButtonItem;
+
 @property (weak, nonatomic) IBOutlet UIWebView *webview;
 
 @end

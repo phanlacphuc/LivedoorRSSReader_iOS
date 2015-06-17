@@ -108,6 +108,7 @@ static NSString *urlArray[] = {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setToolbarHidden:YES];
     [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning {

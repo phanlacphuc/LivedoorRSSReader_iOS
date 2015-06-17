@@ -9,24 +9,13 @@
 #import "FeedsViewController.h"
 #import "Article.h"
 #import "DetailViewController.h"
+#import "LivedoorRSSReader_XMLParserDelegate.h"
 #import <AFNetworking/AFNetworking.h>
 
-@interface FeedsViewController () <NSXMLParserDelegate, NSFetchedResultsControllerDelegate>
+@interface FeedsViewController () <LivedoorRSSReader_XMLParserDelegate, NSFetchedResultsControllerDelegate>
 {
-    //for switch and case
-    enum nodes {title = 1, articleLink = 2, description = 3, pubDate = 4, guid = 5, invalidNode = -1};
-    enum nodes aNode;
-    
-    
-    NSString *newTitle;
-    NSString *newLink;
-    NSString *newDescription;
-    NSDate *newPubDate;
-    NSString *newGuid;
-    
     Article *article;
     
-    NSDateFormatter *_dateFormatter;
     NSDateFormatter *_displayDateFormatter;
     
     NSFetchedResultsController *_fetchedResultsController;
@@ -54,15 +43,6 @@ static NSString *urlArray[] = {
 
 #pragma mark - variables initialization
 
-- (NSDateFormatter *) dateFormatter {
-    if (_dateFormatter != nil) {
-        return _dateFormatter;
-    }
-    _dateFormatter = [[NSDateFormatter alloc]init];
-    [_dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss Z"];
-    return _dateFormatter;
-}
-
 - (NSDateFormatter *) displayDateFormatter {
     if (_displayDateFormatter != nil) {
         return _displayDateFormatter;
@@ -82,7 +62,7 @@ static NSString *urlArray[] = {
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
     
-    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"pubDate" ascending:NO withPredicate:predicate];
+    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"downloaded_date" ascending:NO withPredicate:predicate];
     [fetchRequest setFetchLimit:100];         // Let's say limit fetch to 100
     [fetchRequest setFetchBatchSize:20];      // After 20 are faulted
     
@@ -146,7 +126,12 @@ static NSString *urlArray[] = {
         
         //NSLog(@"xml data: %@",[[NSString alloc] initWithData:operation.responseData encoding:NSUTF8StringEncoding]);
         [xmlParser setShouldProcessNamespaces:YES];
-        [xmlParser setDelegate:self];
+        
+        LivedoorRSSReader_XMLParserDelegate *xmlParserDelegate = [[LivedoorRSSReader_XMLParserDelegate alloc] init];
+        xmlParserDelegate.didParseDelegate = self;
+        
+        [xmlParser setDelegate:xmlParserDelegate];
+        
         [xmlParser parse];
         [self.refreshControl endRefreshing];
         
@@ -180,7 +165,7 @@ static NSString *urlArray[] = {
     
     Article *article_this_cell = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     cell.textLabel.text = article_this_cell.title;
-    cell.detailTextLabel.text = [[self displayDateFormatter] stringFromDate:article_this_cell.pubDate];
+    cell.detailTextLabel.text = [[self displayDateFormatter] stringFromDate:article_this_cell.pub_date];
     if (article_this_cell.is_read.boolValue) {
         [cell setBackgroundColor:[UIColor whiteColor]];
         [cell.textLabel setBackgroundColor:[UIColor whiteColor]];
@@ -214,99 +199,6 @@ static NSString *urlArray[] = {
         [(DetailViewController*)[segue destinationViewController] setArticle:selectedArticle];
     }
 }
-
-
-#pragma mark - NSXMLParserDelegate
-
-- (void)parserDidStartDocument:(NSXMLParser *)parser
-{
-    //self.xmlWeather = [NSMutableDictionary dictionary];
-}
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
-{
-    if([elementName isEqualToString:@"item"]) {
-        aNode = invalidNode;
-        
-        newTitle = @"";
-        newLink = @"";
-        newDescription = @"";
-        newGuid = @"";
-        newPubDate = nil;
-    }
-    else if([elementName isEqualToString:@"title"]) {
-        aNode = title;
-    }
-    else if([elementName isEqualToString:@"link"]) {
-        aNode = articleLink;
-    }
-    else if([elementName isEqualToString:@"description"]) {
-        aNode = description;
-    }
-    else if([elementName isEqualToString:@"pubDate"]) {
-        aNode = pubDate;
-    }
-    else if([elementName isEqualToString:@"guid"]) {
-        aNode = guid;
-    }
-    else {
-        aNode = invalidNode;
-    }
-}
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
-{
-    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet nonBaseCharacterSet]];
-    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
-    if (string.length != 0) {
-        switch (aNode) {
-            case title:
-                newTitle = [newTitle stringByAppendingString:string];
-                break;
-            case articleLink:
-                newLink = string;
-                break;
-            case description:
-                newDescription = [newDescription stringByAppendingString:string];
-                break;
-            case guid:
-                newGuid = string;
-                break;
-            case pubDate:
-                newPubDate = [[self dateFormatter] dateFromString:string];
-                break;
-            default:
-                break;
-        }
-    }
-}
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
-{
-    if([elementName isEqualToString:@"item"]) {
-        
-        article = [Article MR_findFirstOrCreateByAttribute:@"link" withValue:newLink inContext:[self newContextForSavingInBackground]];
-        if ( ! [article.pubDate isEqualToDate:newPubDate]) {
-            // check if there is any update
-            
-            article.category_id = [NSNumber numberWithInteger:self.categoryId];
-            article.is_read = [NSNumber numberWithBool:NO];
-            article.title = newTitle;
-            article.article_description = newDescription;
-            article.link = newLink;
-            article.guid = newGuid;
-            article.pubDate = newPubDate;
-        }
-    }
-}
-- (void) parserDidEndDocument:(NSXMLParser *)parser
-{
-    NSLog(@"parserDidEndDocument");
-    NSManagedObjectContext *context = [self newContextForSavingInBackground];
-    [context MR_saveToPersistentStoreWithCompletion:^(BOOL contextDidSave, NSError *error){
-        NSLog(@"save completed");
-    }];
-}
-
-
 
 #pragma mark - NSFetchedResultsControllerDelegate
 
@@ -347,5 +239,30 @@ static NSString *urlArray[] = {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
     [self.tableView endUpdates];
 }
+
+#pragma mark - LivedoorRSSReader_XMLParserDelegate
+
+- (void) didParseNewItemWithTitle:(NSString *)title link:(NSString *)link description:(NSString *)description guid:(NSString *)guid pubDate:(NSDate *)pubDate {
+    article = [Article MR_findFirstOrCreateByAttribute:@"link" withValue:link inContext:[self newContextForSavingInBackground]];
+    if ( ! [article.pub_date isEqualToDate:pubDate]) {
+        // check if there is any update
+        
+        article.category_id = [NSNumber numberWithInteger:self.categoryId];
+        article.is_read = [NSNumber numberWithBool:NO];
+        article.title = title;
+        article.article_description = description;
+        article.link = link;
+        article.guid = guid;
+        article.pub_date = pubDate;
+        article.downloaded_date = [NSDate date];
+    }
+}
+- (void) didParseDocument {
+    NSManagedObjectContext *context = [self newContextForSavingInBackground];
+    [context MR_saveToPersistentStoreWithCompletion:^(BOOL contextDidSave, NSError *error){
+        NSLog(@"save completed");
+    }];
+}
+
 
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC26C4851B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AC26C4841B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.m */; };
 		AC7B30081B2E91DF00B91F3A /* FeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC7B30071B2E91DF00B91F3A /* FeedsViewController.m */; };
 		ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0831B2E7BAB00A963A0 /* main.m */; };
 		ACCEE0871B2E7BAB00A963A0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ACCEE0861B2E7BAB00A963A0 /* AppDelegate.m */; };
@@ -36,6 +37,8 @@
 		104857F1950F8BFAB96C3F29 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		32BA25CF1C0C4C309C9CDE5D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		753D4CD55720B6AD2292E981 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AC26C4831B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LivedoorRSSReader_XMLParserDelegate.h; sourceTree = "<group>"; };
+		AC26C4841B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LivedoorRSSReader_XMLParserDelegate.m; sourceTree = "<group>"; };
 		AC7B30061B2E91DF00B91F3A /* FeedsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedsViewController.h; sourceTree = "<group>"; };
 		AC7B30071B2E91DF00B91F3A /* FeedsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedsViewController.m; sourceTree = "<group>"; };
 		ACCEE07E1B2E7BAB00A963A0 /* LivedoorRSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LivedoorRSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +90,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AC1DA9551B318B0B00D82F31 /* Shared Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				AC26C4831B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.h */,
+				AC26C4841B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.m */,
+			);
+			path = "Shared Delegate";
+			sourceTree = "<group>";
+		};
 		ACCEE0751B2E7BAB00A963A0 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +122,7 @@
 		ACCEE0801B2E7BAB00A963A0 /* LivedoorRSSReader */ = {
 			isa = PBXGroup;
 			children = (
+				AC1DA9551B318B0B00D82F31 /* Shared Delegate */,
 				ACCEE0B41B2E7CCC00A963A0 /* Model */,
 				ACCEE0B31B2E7CBD00A963A0 /* View */,
 				ACCEE0AC1B2E7C2F00A963A0 /* Controller */,
@@ -363,6 +376,7 @@
 				ACCEE0841B2E7BAB00A963A0 /* main.m in Sources */,
 				AC7B30081B2E91DF00B91F3A /* FeedsViewController.m in Sources */,
 				ACCEE0B21B2E7C9800A963A0 /* CategoryViewController.m in Sources */,
+				AC26C4851B3193E80061E617 /* LivedoorRSSReader_XMLParserDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

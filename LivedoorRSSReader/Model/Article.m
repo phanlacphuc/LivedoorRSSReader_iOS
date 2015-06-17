@@ -15,7 +15,8 @@
 @dynamic link;
 @dynamic article_description;
 @dynamic guid;
-@dynamic pubDate;
+@dynamic pub_date;
+@dynamic downloaded_date;
 @dynamic category_id;
 @dynamic is_read;
 

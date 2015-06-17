@@ -16,7 +16,8 @@
 @property (nonatomic, retain) NSString * link;
 @property (nonatomic, retain) NSString * article_description;
 @property (nonatomic, retain) NSString * guid;
-@property (nonatomic, retain) NSDate * pubDate;
+@property (nonatomic, retain) NSDate * pub_date;
+@property (nonatomic, retain) NSDate * downloaded_date;
 @property (nonatomic, retain) NSNumber * category_id;
 @property (nonatomic, retain) NSNumber * is_read;
 

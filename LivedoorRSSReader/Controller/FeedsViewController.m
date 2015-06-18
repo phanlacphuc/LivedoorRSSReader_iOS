@@ -62,8 +62,8 @@ static NSString *urlArray[] = {
 
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(category_id = %d)", self.categoryId];
     
-    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"downloaded_date" ascending:NO withPredicate:predicate];
-    [fetchRequest setFetchLimit:100];         // Let's say limit fetch to 100
+    NSFetchRequest *fetchRequest = [Article MR_requestAllSortedBy:@"pub_date" ascending:NO withPredicate:predicate];
+    //[fetchRequest setFetchLimit:100];         // Let's say limit fetch to 100
     [fetchRequest setFetchBatchSize:20];      // After 20 are faulted
     
     _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[NSManagedObjectContext MR_defaultContext] sectionNameKeyPath:nil cacheName:@"ArticleCache"];
